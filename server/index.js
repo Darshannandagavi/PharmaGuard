@@ -7,15 +7,11 @@ import { pgxVariants } from "./pgxMapping.js";
 
 const app = express();
 app.use(cors({
-  origin: [
-    "http://localhost:3000",
-    "http://localhost:5173",
-    "https://your-frontend-domain.com" // Add your deployed frontend URL
-  ],
-  credentials: true,
+  origin: "*",
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
+
 import dotenv from "dotenv";
 import Groq from "groq-sdk";
 
