@@ -32,7 +32,7 @@ ChartJS.register(
 const PharmaGuard = () => {
   const [file, setFile] = useState(null);
   const [drug, setDrug] = useState([]);
-
+  
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -882,6 +882,7 @@ const PharmaGuard = () => {
                 color: "#2c3e50",
                 fontSize: "clamp(18px, 4vw, 20px)",
                 fontWeight: "600",
+                textAlign: "left"
               }}
             >
               {isMulti ? `💊 Drug: ${analysis.drug}` : "📋 Analysis Results"}
@@ -2330,7 +2331,33 @@ const PharmaGuard = () => {
 export default PharmaGuard;
 
 const DrugJsonModal = ({ analysis, onClose }) => {
+  const [copiedDrugJson, setCopiedDrugJson] = React.useState(false);
+
   if (!analysis) return null;
+
+  const jsonString = JSON.stringify(analysis, null, 2);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(jsonString).then(() => {
+      setCopiedDrugJson(true);
+      setTimeout(() => setCopiedDrugJson(false), 2000);
+    });
+  };
+
+  const handleDownload = () => {
+    const blob = new Blob([jsonString], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+
+    const fileName = `${analysis.drug}_analysis.json`;
+
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
     <div
@@ -2343,13 +2370,12 @@ const DrugJsonModal = ({ analysis, onClose }) => {
         alignItems: "center",
         zIndex: 2000,
         padding: "20px",
-        backdropFilter: "blur(5px)",
       }}
       onClick={onClose}
     >
       <div
         style={{
-          background: "#282c34",
+          background: "#1e1e1e",
           width: "95%",
           maxWidth: "900px",
           maxHeight: "90vh",
@@ -2357,121 +2383,85 @@ const DrugJsonModal = ({ analysis, onClose }) => {
           overflow: "hidden",
           display: "flex",
           flexDirection: "column",
-          boxShadow: "0 20px 40px rgba(0,0,0,0.4)",
-          border: "1px solid #3e4451",
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Mac-style Header */}
         <div
           style={{
-            padding: "16px 20px",
-            backgroundColor: "#21252b",
-            borderBottom: "1px solid #181a1f",
+            padding: "14px 20px",
+            backgroundColor: "#111",
+            color: "white",
             display: "flex",
+            justifyContent: "space-between",
             alignItems: "center",
-            gap: "12px",
           }}
         >
-          {/* Traffic light buttons */}
-          <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
-            <div
+          <strong>Drug JSON Output — {analysis.drug}</strong>
+
+          <div style={{ display: "flex", gap: "10px" }}>
+            <button
+              onClick={handleCopy}
               style={{
-                width: "14px",
-                height: "14px",
-                borderRadius: "50%",
-                backgroundColor: "#ff5f56",
+                background: copiedDrugJson ? "#22c55e" : "#2563eb",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                color: "white",
                 cursor: "pointer",
-                transition: "opacity 0.2s",
+                fontSize: "13px",
+                fontWeight: "600",
               }}
+            >
+              {copiedDrugJson ? "✓ Copied" : "Copy"}
+            </button>
+
+            <button
+              onClick={handleDownload}
+              style={{
+                background: "#f59e0b",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                color: "white",
+                cursor: "pointer",
+                fontSize: "13px",
+                fontWeight: "600",
+              }}
+            >
+              Download
+            </button>
+
+            <button
               onClick={onClose}
-              title="Close"
-            />
-            <div
               style={{
-                width: "14px",
-                height: "14px",
-                borderRadius: "50%",
-                backgroundColor: "#ffbd2e",
-                cursor: "default",
+                background: "#ef4444",
+                border: "none",
+                padding: "6px 12px",
+                borderRadius: "6px",
+                color: "white",
+                cursor: "pointer",
+                fontSize: "13px",
+                fontWeight: "600",
               }}
-            />
-            <div
-              style={{
-                width: "14px",
-                height: "14px",
-                borderRadius: "50%",
-                backgroundColor: "#27c93f",
-                cursor: "default",
-              }}
-            />
+            >
+              Close
+            </button>
           </div>
-
-          {/* File name/title */}
-          <div
-            style={{
-              color: "#abb2bf",
-              fontSize: "13px",
-              fontFamily:
-                "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-              marginLeft: "auto",
-              marginRight: "auto",
-              backgroundColor: "#1e2127",
-              padding: "4px 12px",
-              borderRadius: "20px",
-              border: "1px solid #3e4451",
-            }}
-          >
-            {analysis.drug || "drug-analysis"}.json
-          </div>
-
-          {/* Empty div for spacing */}
-          <div style={{ width: "52px" }} />
-          <span style={{ marginLeft: "auto", color: "#98c379" }}>
-            {new Date().toLocaleDateString()}
-          </span>
         </div>
 
-        {/* Toolbar */}
-
-        {/* Body with syntax highlighting style */}
         <div
           style={{
             padding: "20px",
             overflow: "auto",
-            fontFamily:
-              "'Fira Code', 'JetBrains Mono', 'Courier New', monospace",
+            fontFamily: "monospace",
             fontSize: "13px",
-            lineHeight: "1.6",
-            color: "#abb2bf",
-            backgroundColor: "#282c34",
+            color: "#9cdcfe",
+            backgroundColor: "#1e1e1e",
             whiteSpace: "pre-wrap",
-            wordWrap: "break-word",
-            textAlign: "left",
+            textAlign:"left"
           }}
         >
-          {JSON.stringify(analysis, null, 2)}
-        </div>
-
-        {/* Status bar */}
-        <div
-          style={{
-            padding: "8px 20px",
-            backgroundColor: "#21252b",
-            borderTop: "1px solid #181a1f",
-            color: "#6a737d",
-            fontSize: "11px",
-            fontFamily:
-              "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-            display: "flex",
-            gap: "16px",
-          }}
-        >
-          <span>UTF-8</span>
-          <span>JSON</span>
-          <span style={{ marginLeft: "auto" }}>
-            Lines: {JSON.stringify(analysis, null, 2).split("\n").length}
-          </span>
+          {jsonString}
         </div>
       </div>
     </div>
