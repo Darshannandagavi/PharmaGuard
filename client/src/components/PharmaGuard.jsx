@@ -1808,14 +1808,7 @@ const PharmaGuard = () => {
 
   const resultsRef = useRef(null);
 
-  const supportedDrugs = [
-    "CODEINE",
-    "WARFARIN",
-    "CLOPIDOGREL",
-    "SIMVASTATIN",
-    "AZATHIOPRINE",
-    "FLUOROURACIL",
-  ];
+
 
   // Auto-scroll to results when they appear
   useEffect(() => {
