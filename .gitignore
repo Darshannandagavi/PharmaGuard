@@ -1,0 +1,58 @@
+# =========================
+# NODE
+# =========================
+node_modules/
+**/node_modules/
+
+# =========================
+# ENV FILES (CRITICAL)
+# =========================
+.env
+.env.local
+.env.development
+.env.production
+client/.env
+server/.env
+
+# =========================
+# BUILDS
+# =========================
+client/build/
+client/dist/
+server/dist/
+server/build/
+
+# =========================
+# UPLOADS (Your multer folder)
+# =========================
+server/uploads/
+uploads/
+
+# =========================
+# LOG FILES
+# =========================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# =========================
+# OS FILES
+# =========================
+.DS_Store
+Thumbs.db
+
+# =========================
+# IDE / EDITOR
+# =========================
+.vscode/
+.idea/
+*.swp
+
+# =========================
+# CACHE
+# =========================
+.cache/
+.parcel-cache/
+coverage/
