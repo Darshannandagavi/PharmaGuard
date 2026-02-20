@@ -14,7 +14,7 @@ Backend API: https://pharmaguard-gn0n.onrender.com
 
 🎥 Demo Video (LinkedIn)
 
-Public Video Link: https://linkedin.com/your-demo-video
+Public Video Link: https://www.linkedin.com/posts/darshan-nandagavi_rift2026-pharmaguard-pharmacogenomics-ugcPost-7430405842614792192--jYZ?utm_source=share&utm_medium=member_desktop&rcm=ACoAAEq6mkIBU1m5cpajZjo7tY6ctzs3UESDIuY
 
 Hashtags used:
 #RIFT2026 #PharmaGuard #Pharmacogenomics #AIinHealthcare
