@@ -602,3 +602,10 @@ for (const drug of drugs) {
 app.listen(8000, () => {
   console.log("Server running on port 8000");
 });
+
+app.get("/", (req, res) => {
+  res.status(200).json({
+    message: "Welcome to the Pharmacogenomics Analysis API. Use POST /analyze with a VCF file and drug name to get started.",
+  
+  });
+});
